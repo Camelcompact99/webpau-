@@ -143,7 +143,7 @@ const imagenesFashion = 19;
 //FOR PARA RECORRER 
 
 for (let i = 1; i<= imagenesFashion; i++){
-    arregloFashion.push(`images/FASHION/fashion${i}.jpg`);
+    arregloFashion.push(`images/FASHION/fashion${i}.webp`);
 }
 //CASTELL 
 const castellBoton = document.getElementById('castellPoble');
