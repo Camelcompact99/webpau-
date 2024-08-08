@@ -26,10 +26,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 //LA GIGANTESCA FUNCIÓN CARGA GRIDS !!!!!!!!
-function cargaGrids(arreglo){
-    
+function cargaGrids(arreglo) {
     document.documentElement.style.overflow = 'scroll';
-    fotoswapper.innerHTML =  '  ' ;
+    fotoswapper.innerHTML = '';
     info.classList.remove("wapperinfo");
     info.classList.add("wapperinfohidden");
     fotoswapper.classList.remove('fotoswapperhidden');
@@ -38,13 +37,16 @@ function cargaGrids(arreglo){
     container.classList.add('containerfotos');
     fotoswapper.appendChild(container);
 
-    arreglo.forEach((src,indice) => {
+    arreglo.forEach((src, indice) => {
+        const div = document.createElement('div');
+        div.setAttribute('data-indice', indice);
+
         const img = new Image();
-        img.src = src;
+        const smallSrc = src.replace(/(\.[\w\d_-]+)$/i, '_small$1'); // Assuming small images have a "_small" suffix
+
+        img.src = smallSrc;
+        img.setAttribute('data-src', src);
         img.onload = () => {
-            const div = document.createElement('div');
-            div.setAttribute('data-indice', indice);
-        
             if (img.naturalHeight > img.naturalWidth) {
                 div.classList.add('vertical');
             } else if (Math.random() < 0.2) { // Probabilidad para agregar la clase 'grande'
@@ -52,42 +54,65 @@ function cargaGrids(arreglo){
             } else {
                 div.classList.add('horizontal');
             }
-        
+
             div.appendChild(img);
             container.appendChild(div);
             console.log(div.getAttribute('data-indice'));
         };
+    });
 
-         });
+    const loadImages = (image) => {
+        const src = image.getAttribute('data-src');
+        if (!src) {
+            return;
+        }
+        image.src = src;
+        image.removeAttribute('data-src');
+    };
 
-         container.addEventListener("click",(event)=>{
-            const target = event.target;
-            if (target.tagName === 'IMG'){
-                const div = target.parentElement; 
-                let indice = div.getAttribute('data-indice');
-                console.log(indice);
-                const tapar = document.createElement('div')
-                tapar.classList.add('tapar');
-                
-                let foto = document.createElement('img');
-                foto.src = arreglo[indice];
-                
-                document.body.appendChild(tapar);
-                tapar.appendChild(foto);
-               
-                foto.addEventListener('click', (e) => {
-                    e.stopPropagation(); // Prevenir la propagación del evento de clic
-                    indice = (indice + 1) % arreglo.length;
-                    foto.src = arreglo[indice];
-                });
-
-                // Manejar el clic fuera de la imagen para cerrar el div tapar
-                tapar.addEventListener('click', () => {
-                    document.body.removeChild(tapar);
-                    document.documentElement.style.overflow = 'scroll';
-                });
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const image = entry.target;
+                loadImages(image);
+                observer.unobserve(image);
             }
         });
+    });
+
+    const images = container.querySelectorAll('img[data-src]');
+    images.forEach(image => {
+        imageObserver.observe(image);
+    });
+
+    container.addEventListener("click", (event) => {
+        const target = event.target;
+        if (target.tagName === 'IMG') {
+            const div = target.parentElement;
+            let indice = div.getAttribute('data-indice');
+            console.log(indice);
+            const tapar = document.createElement('div');
+            tapar.classList.add('tapar');
+
+            let foto = document.createElement('img');
+            foto.src = arreglo[indice];
+
+            document.body.appendChild(tapar);
+            tapar.appendChild(foto);
+
+            foto.addEventListener('click', (e) => {
+                e.stopPropagation(); // Prevenir la propagación del evento de clic
+                indice = (indice + 1) % arreglo.length;
+                foto.src = arreglo[indice];
+            });
+
+            // Manejar el clic fuera de la imagen para cerrar el div tapar
+            tapar.addEventListener('click', () => {
+                document.body.removeChild(tapar);
+                document.documentElement.style.overflow = 'scroll';
+            });
+        }
+    });
 }
 
 let fotosmain = [
@@ -143,7 +168,7 @@ const imagenesFashion = 19;
 //FOR PARA RECORRER 
 
 for (let i = 1; i<= imagenesFashion; i++){
-    arregloFashion.push(`images/FASHION/fashion${i}.webp`);
+    arregloFashion.push(`images/FASHION/fashion${i}.jpg`);
 }
 //CASTELL 
 const castellBoton = document.getElementById('castellPoble');
