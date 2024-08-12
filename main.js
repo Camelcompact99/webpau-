@@ -23,12 +23,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         barra.classList.toggle('navbaropen')
       });
-
-
 //LA GIGANTESCA FUNCIÓN CARGA GRIDS !!!!!!!!
-function cargaGrids(arreglo) {
+function cargaGrids(arreglo){
     document.documentElement.style.overflow = 'scroll';
-    fotoswapper.innerHTML = '';
+    fotoswapper.innerHTML =  '  ' ;
     info.classList.remove("wapperinfo");
     info.classList.add("wapperinfohidden");
     fotoswapper.classList.remove('fotoswapperhidden');
@@ -37,75 +35,81 @@ function cargaGrids(arreglo) {
     container.classList.add('containerfotos');
     fotoswapper.appendChild(container);
 
-    arreglo.forEach((src, indice) => {
-        const div = document.createElement('div');
-        div.setAttribute('data-indice', indice);
-
-        const img = new Image();
-        const smallSrc = src.replace(/(\.[\w\d_-]+)$/i, '_small$1'); // Assuming small images have a "_small" suffix
-
-        img.src = smallSrc;
-        img.setAttribute('data-src', src);
-        img.onload = () => {
-            if (img.naturalHeight > img.naturalWidth) {
-                div.classList.add('vertical');
-            } else if (Math.random() < 0.2) { // Probabilidad para agregar la clase 'grande'
-                div.classList.add('grande');
-            } else {
-                div.classList.add('horizontal');
-            }
-
-            div.appendChild(img);
-            container.appendChild(div);
-            console.log(div.getAttribute('data-indice'));
-        };
-    });
-
-    const loadImages = (image) => {
-        const src = image.getAttribute('data-src');
-        if (!src) {
-            return;
-        }
-        image.src = src;
-        image.removeAttribute('data-src');
-    };
-
-    const imageObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const image = entry.target;
-                loadImages(image);
-                observer.unobserve(image);
-            }
+    let arregloDiv  = [];
+    let imgPromises = arreglo.map((src, indice) => {
+        return new Promise((resolve) => {
+            const img = new Image();
+            smallsrc = src.replace('.jpg','_small.jpg')
+            img.src = smallsrc;
+            img.classList.add('placeholder');
+            img.onload = () => {
+                const div = document.createElement('div');
+                div.setAttribute('data-indice', indice);
+            
+                if (img.naturalHeight > img.naturalWidth) {
+                    div.classList.add('vertical');
+                } else if (Math.random() < 0.2) {
+                    div.classList.add('grande');
+                } else {
+                    div.classList.add('horizontal');
+                }
+            
+                div.appendChild(img);
+                container.appendChild(div);
+                arregloDiv.push(div);
+                resolve();
+            };
         });
     });
 
-    const images = container.querySelectorAll('img[data-src]');
-    images.forEach(image => {
-        imageObserver.observe(image);
+    Promise.all(imgPromises).then(() => {
+        // Crear el IntersectionObserver
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const div = entry.target;
+                    const indice = div.getAttribute('data-indice');
+                    const imgGrande = new Image();
+                    imgGrande.classList.add('noseve');
+                    imgGrande.src = arreglo[indice];
+                    imgGrande.onload = () => {
+                        const imgPlaceholder = div.querySelector('img');
+                        imgPlaceholder.classList.add('fadeout')
+                        div.replaceChild(imgGrande, imgPlaceholder);
+                        imgGrande.classList.remove('noseve');
+                        imgGrande.classList.add('fade-in');
+                    };
+                    observer.unobserve(div);  // Dejar de observar una vez que la imagen se ha cargado
+                }
+            });
+        });
+
+        // Observar cada div que contiene las imágenes
+        arregloDiv.forEach((div) => {
+            observer.observe(div);
+        });
     });
 
     container.addEventListener("click", (event) => {
         const target = event.target;
-        if (target.tagName === 'IMG') {
-            const div = target.parentElement;
+        if (target.tagName === 'IMG'){
+            const div = target.parentElement; 
             let indice = div.getAttribute('data-indice');
             console.log(indice);
             const tapar = document.createElement('div');
             tapar.classList.add('tapar');
-
+            
             let foto = document.createElement('img');
             foto.src = arreglo[indice];
-
+            
             document.body.appendChild(tapar);
             tapar.appendChild(foto);
-
+            
             foto.addEventListener('click', (e) => {
                 e.stopPropagation(); // Prevenir la propagación del evento de clic
                 indice = (indice + 1) % arreglo.length;
                 foto.src = arreglo[indice];
             });
-
             // Manejar el clic fuera de la imagen para cerrar el div tapar
             tapar.addEventListener('click', () => {
                 document.body.removeChild(tapar);
@@ -114,6 +118,7 @@ function cargaGrids(arreglo) {
         }
     });
 }
+
 
 let fotosmain = [
     'images/FASHION/fashion6.jpg',
@@ -132,21 +137,16 @@ let fotosmain = [
     'images/plasticsoul/plasticsoul15.jpg',
     'images/plasticsoul/plasticsoul11.jpg',
 ]
-
 let fotosmovil = [
     'images/FASHION/fashion10.jpg',
     'images/FASHION/fashion13.jpg',
     'images/FASHION/fashion3.jpg', 
     'images/perros/islaperros13.jpg'
 ]
-
-
-
 function mainImages(arr){
     info.classList.remove("wapperinfo");
     fotoswapper.classList.remove('fotoswapperhidden');
     fotoswapper.classList.add('fotoswapper');
-   
     info.classList.add("wapperinfohidden");
     document.documentElement.style.overflow = 'hidden';
     fotoswapper.innerHTML = ' ' ;
@@ -158,9 +158,7 @@ function mainImages(arr){
     foto.src = fotorandom;
     fotoswapper.appendChild(contenedor);
     contenedor.appendChild(foto);
-
 }
-
 //FASHION
 const fashionBoton = document.getElementById('fashion');
 const imagenesFashion = 19;
@@ -169,6 +167,7 @@ const imagenesFashion = 19;
 
 for (let i = 1; i<= imagenesFashion; i++){
     arregloFashion.push(`images/FASHION/fashion${i}.jpg`);
+
 }
 //CASTELL 
 const castellBoton = document.getElementById('castellPoble');
@@ -177,7 +176,6 @@ let arregloCastell = [];
 for (let i = 1; i<= imagenesCastell; i++){
     arregloCastell.push(`images/castell/castell${i}.jpg`);
 }
-
 //PERROS
 const perrosBoton = document.getElementById('islaperros');
 const imagenesPerros = 16;
@@ -192,21 +190,15 @@ let arregloPlastic = [];
 for (let i = 1; i<= imagenesPlastic; i++){
     arregloPlastic.push(`images/plasticsoul/plasticsoul${i}.jpg`);
 }
-
 if (window.innerWidth > 700) {
     mainImages(fotosmain);
 } else {
     mainImages(fotosmovil);
 }
-
-
-
 fashionBoton.addEventListener("click", () => cargaGrids(arregloFashion));
 castellBoton.addEventListener("click", () => cargaGrids(arregloCastell));
 perrosBoton.addEventListener("click", () => cargaGrids(arregloPerros));
 plasticBoton.addEventListener("click", () => cargaGrids(arregloPlastic));
-
-
 pauBoton.addEventListener("click",()=>{
     if (window.innerWidth > 700) {
         mainImages(fotosmain);
@@ -220,11 +212,6 @@ info.classList.remove("wapperinfohidden");
 info.classList.add("wapperinfo");
 fotoswapper.classList.remove('fotoswapper');
 fotoswapper.classList.add('fotoswapperhidden');
-
 document.documentElement.style.overflow = 'scroll';
 })
-
-
 });
-
-
