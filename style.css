@@ -353,16 +353,10 @@ scrollbar-width: none;  /* Oculta la scrollbar en Firefox */
   .fotomain{
     padding-top:160px;
     width: 90%;
-  }ç
- 
+  }
   .tapar img {
-    position: absolute;
     max-width: 90%;
     height: auto;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-   
   }
   .grande {
     grid-column: span 1;
