@@ -21,19 +21,31 @@ document.addEventListener('DOMContentLoaded', () => {
         elementos.forEach(elemento => {
           elemento.classList.toggle('cerrado');
         });
-        barra.classList.toggle('navbaropen')
+        if (barra.classList.contains('navbarwrapper')) {
+            barra.classList.remove('navbarwrapper');
+            barra.classList.add('navbaropen');
+        } else {
+            barra.classList.remove('navbaropen');
+            barra.classList.add('navbarwrapper');
+        }
       });
 //LA GIGANTESCA FUNCIÓN CARGA GRIDS !!!!!!!!
-function cargaGrids(arreglo){
+function cargaGrids(arreglo,string){
     document.documentElement.style.overflow = 'scroll';
     fotoswapper.innerHTML =  '  ' ;
     info.classList.remove("wapperinfo");
     info.classList.add("wapperinfohidden");
     fotoswapper.classList.remove('fotoswapperhidden');
     fotoswapper.classList.add('fotoswapper');
+    const texto = document.createElement('p');
+    texto.innerHTML = string;
+
+    texto.classList.add('textoAño')
     const container = document.createElement('div');
     container.classList.add('containerfotos');
     fotoswapper.appendChild(container);
+    container.appendChild(texto);
+    
 
     let arregloDiv  = [];
     let imgPromises = arreglo.map((src, indice) => {
@@ -162,9 +174,9 @@ function mainImages(arr){
 //FASHION
 const fashionBoton = document.getElementById('fashion');
 const imagenesFashion = 19;
- let arregloFashion = [];
+let arregloFashion = [];
+const stringFashion = 'commissioned work';
 //FOR PARA RECORRER 
-
 for (let i = 1; i<= imagenesFashion; i++){
     arregloFashion.push(`images/FASHION/fashion${i}.jpg`);
 
@@ -173,6 +185,7 @@ for (let i = 1; i<= imagenesFashion; i++){
 const castellBoton = document.getElementById('castellPoble');
 const imagenesCastell = 16;
 let arregloCastell = [];
+const stringCastell = ' el castell del poble * <i>on going<i>';
 for (let i = 1; i<= imagenesCastell; i++){
     arregloCastell.push(`images/castell/castell${i}.jpg`);
 }
@@ -180,6 +193,7 @@ for (let i = 1; i<= imagenesCastell; i++){
 const perrosBoton = document.getElementById('islaperros');
 const imagenesPerros = 16;
 let arregloPerros = [];
+const stringPerros = ' isla de perros * <i>2022-2023<i>';
 for (let i = 1; i<= imagenesPerros; i++){
     arregloPerros.push(`images/perros/islaperros${i}.jpg`);
 }
@@ -187,6 +201,7 @@ for (let i = 1; i<= imagenesPerros; i++){
 const plasticBoton = document.getElementById('plasticsoul');
 const imagenesPlastic = 16;
 let arregloPlastic = [];
+const stringPlastic = ' plastic soul * <i>2024<i>';
 for (let i = 1; i<= imagenesPlastic; i++){
     arregloPlastic.push(`images/plasticsoul/plasticsoul${i}.jpg`);
 }
@@ -195,10 +210,10 @@ if (window.innerWidth > 700) {
 } else {
     mainImages(fotosmovil);
 }
-fashionBoton.addEventListener("click", () => cargaGrids(arregloFashion));
-castellBoton.addEventListener("click", () => cargaGrids(arregloCastell));
-perrosBoton.addEventListener("click", () => cargaGrids(arregloPerros));
-plasticBoton.addEventListener("click", () => cargaGrids(arregloPlastic));
+fashionBoton.addEventListener("click", () => cargaGrids(arregloFashion,stringFashion));
+castellBoton.addEventListener("click", () => cargaGrids(arregloCastell,stringCastell));
+perrosBoton.addEventListener("click", () => cargaGrids(arregloPerros,stringPerros));
+plasticBoton.addEventListener("click", () => cargaGrids(arregloPlastic,stringPlastic));
 pauBoton.addEventListener("click",()=>{
     if (window.innerWidth > 700) {
         mainImages(fotosmain);
