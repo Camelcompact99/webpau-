@@ -185,7 +185,7 @@ for (let i = 1; i<= imagenesFashion; i++){
 const castellBoton = document.getElementById('castellPoble');
 const imagenesCastell = 16;
 let arregloCastell = [];
-const stringCastell = ' el castell del poble * <i>on going<i>';
+const stringCastell = ' el castell del poble * on going';
 for (let i = 1; i<= imagenesCastell; i++){
     arregloCastell.push(`images/castell/castell${i}.jpg`);
 }
@@ -193,7 +193,7 @@ for (let i = 1; i<= imagenesCastell; i++){
 const perrosBoton = document.getElementById('islaperros');
 const imagenesPerros = 16;
 let arregloPerros = [];
-const stringPerros = ' isla de perros * <i>2022-2023<i>';
+const stringPerros = ' isla de perros * 2022-2023';
 for (let i = 1; i<= imagenesPerros; i++){
     arregloPerros.push(`images/perros/islaperros${i}.jpg`);
 }
@@ -201,7 +201,7 @@ for (let i = 1; i<= imagenesPerros; i++){
 const plasticBoton = document.getElementById('plasticsoul');
 const imagenesPlastic = 16;
 let arregloPlastic = [];
-const stringPlastic = ' plastic soul * <i>2024<i>';
+const stringPlastic = ' plastic soul * 2024';
 for (let i = 1; i<= imagenesPlastic; i++){
     arregloPlastic.push(`images/plasticsoul/plasticsoul${i}.jpg`);
 }
