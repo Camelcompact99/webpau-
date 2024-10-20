@@ -121,6 +121,7 @@ function cargaGrids(arreglo,string){
                 e.stopPropagation(); // Prevenir la propagación del evento de clic
                 indice = (indice + 1) % arreglo.length;
                 foto.src = arreglo[indice];
+                foto.alt = `PauPoveda${arreglo}_${arreglo[indice]}`
             });
             // Manejar el clic fuera de la imagen para cerrar el div tapar
             tapar.addEventListener('click', () => {
@@ -173,7 +174,7 @@ function mainImages(arr){
 }
 //FASHION
 const fashionBoton = document.getElementById('fashion');
-const imagenesFashion = 19;
+const imagenesFashion = 20;
 let arregloFashion = [];
 const stringFashion = 'commissioned work';
 //FOR PARA RECORRER 
@@ -201,7 +202,7 @@ for (let i = 1; i<= imagenesPerros; i++){
 const plasticBoton = document.getElementById('plasticsoul');
 const imagenesPlastic = 16;
 let arregloPlastic = [];
-const stringPlastic = ' plastic soul * 2024';
+const stringPlastic = ' plastic soul * 2022';
 for (let i = 1; i<= imagenesPlastic; i++){
     arregloPlastic.push(`images/plasticsoul/plasticsoul${i}.jpg`);
 }
