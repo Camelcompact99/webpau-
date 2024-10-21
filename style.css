@@ -373,8 +373,14 @@ scrollbar-width: none;  /* Oculta la scrollbar en Firefox */
     margin-top: 160px;
     width: 90%;
     grid-template-columns: 1fr
-  
   }
+
+  .containerfotos img {
+    width: 100%;
+    height: auto;
+    object-fit: cover; 
+}
+
 
   .fotomain{
     padding-top:160px;
