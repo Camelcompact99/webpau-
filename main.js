@@ -174,7 +174,7 @@ function mainImages(arr){
 }
 //FASHION
 const fashionBoton = document.getElementById('fashion');
-const imagenesFashion = 20;
+const imagenesFashion = 19;
 let arregloFashion = [];
 const stringFashion = 'commissioned work';
 //FOR PARA RECORRER 
