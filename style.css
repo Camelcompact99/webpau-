@@ -12,6 +12,10 @@ overflow: hidden;
 -ms-overflow-style: none;  /* Oculta la scrollbar en Internet Explorer y Edge */
 scrollbar-width: none;  /* Oculta la scrollbar en Firefox */
 }
+button{
+  all: unset;
+  cursor: pointer;
+}
 
 
 .navbarwrapper{
@@ -42,7 +46,7 @@ scrollbar-width: none;  /* Oculta la scrollbar en Firefox */
   z-index:9;
   padding-bottom:120px;
 }
-.navbar{
+  .navbar{
       top: 0;
       /*background-color: white;*/
       position: fixed;
@@ -58,29 +62,6 @@ scrollbar-width: none;  /* Oculta la scrollbar en Firefox */
       z-index: 9;
       margin: 0%;
       
-  }
-
-  .navbar h1{
-    font-size: 1em;
-    font-weight: normal;
-    padding: 0%;
-    margin: 0%;
-    /*margin-top: 3px;*/
-  }
-  .navbar button{
-    appearance: none;
-    border-width: 0;
-    font-size: 1em;
-    padding: 0; 
-    background-color: white;
-    color: #C1C1C1;
-    font-weight: normal;
-    font-family: PPNeueMonteralRegular;
-    
-
-  }
-  .navbar button:hover {
-    color: blue
   }
   /*.navbaropen{
     top: 0;
@@ -114,7 +95,15 @@ scrollbar-width: none;  /* Oculta la scrollbar en Firefox */
       display: flex;
       justify-content: flex-start;
       transition: transform 0.3s ease; 
-    
+    }
+    .nombre h1 {
+      font-size: 1.3rem;
+      padding: 0%;
+      margin: 0%;
+      font-weight: normal;
+    }
+    .nombre h1:hover {
+      color:#4151E2;
     }
   
     .projects {
@@ -194,12 +183,15 @@ scrollbar-width: none;  /* Oculta la scrollbar en Firefox */
     }
     
     .fotomain{
-      padding-top: 250px;
-      width: 50%;
+      position: absolute;
+      top: 250px;
+      left: 50%;
+      transform: translate(-50%, 0%);
     }
     .fotomain img{
-      max-width: 100%;
+      width: 100%;
       height: auto;
+      max-height: 50vh;
     }
   
     .containerfotos{
@@ -221,7 +213,7 @@ scrollbar-width: none;  /* Oculta la scrollbar en Firefox */
       margin: 0 auto; /* Centra el texto */
       width: 100%;
       color: #C1C1C1;
-      font-size: 1.2rem;
+      font-size: 1.3rem;
       padding-block: 20px;
       box-sizing: border-box;
       align-self: flex-start;
@@ -278,7 +270,7 @@ scrollbar-width: none;  /* Oculta la scrollbar en Firefox */
     display: flex;
     align-content: center;
     justify-content: center;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.75);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     position:fixed;
@@ -351,8 +343,8 @@ scrollbar-width: none;  /* Oculta la scrollbar en Firefox */
     width: 90%;
     padding-bottom: 10px;
    }
-   .textoAño{
-    font-size: 0.8rem;
+   .nombre{
+    font-size: 1rem;
    }
 
    .navbarwrapper{
@@ -373,19 +365,21 @@ scrollbar-width: none;  /* Oculta la scrollbar en Firefox */
     margin-top: 160px;
     width: 90%;
     grid-template-columns: 1fr
+  
   }
-
-  .containerfotos img {
-    width: 100%;
-    height: auto;
-    object-fit: cover; 
-}
-
 
   .fotomain{
     padding-top:160px;
     width: 90%;
+    top:0%;
+    transform: translate(-50%, 0%);
   }
+
+  .fotomain img{
+    max-height: 100%;
+  }
+
+ 
   .tapar img {
     max-width: 90%;
     height: auto;
